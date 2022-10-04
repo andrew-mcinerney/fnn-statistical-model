@@ -22,6 +22,7 @@ output:
 
 ```{r, echo=FALSE, message=FALSE}
 library(knitr)
+library(fontawesome)
 # the default output hook
 hook_output <- knit_hooks$get('output')
 knit_hooks$set(output = function(x, options) {
@@ -101,7 +102,7 @@ class: title-slide, left, bottom
 # Feedforward Neural Networks 
 
 .pull-left[ 
-```{r, echo=FALSE, out.width="90%", fig.align="center"}
+```{r, echo=FALSE, out.width="90%", out.height="110%", fig.align="center"}
 knitr::include_graphics("img/FNN.png")
 ``` 
 ]
@@ -223,19 +224,19 @@ However, inverting $I_o(\theta)$ be problematic.
 
 # Redundancy
 
-- Redundant hidden nodes can lead to issues of unidentifiability for some of the parameters (Fukumizu 1996).
+Redundant hidden nodes can lead to issues of unidentifiability for some of the parameters (Fukumizu 1996).
 
 <br>
 
 --
 
-- Redundant hidden nodes $\implies$ Singular information matrix.
+Redundant hidden nodes $\implies$ Singular information matrix.
 
 <br>
 
 --
 
-- Model selection is required.
+Model selection is required.
 
 
 ---
@@ -258,7 +259,32 @@ A Statistically-Based Approach to Feedforward Neural Network Model Selection (ar
 
 # Hypothesis Testing
 
-Wald test:
+
+.pull-left[
+```{r, echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics("img/FNN1.png")
+``` 
+]
+
+---
+count: false
+# Hypothesis Testing
+
+
+.pull-left[
+```{r, echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics("img/FNN2.png")
+``` 
+]
+
+--
+
+.pull-right[
+  Wald test:
+  
+  {{content}}
+  
+  ]
 
 --
 
@@ -267,6 +293,7 @@ $$
  \omega_j = (\omega_{j1},\omega_{j2},\dotsc,\omega_{jq})^T
 \end{equation}
 $$
+{{content}}
 
 --
 
@@ -275,6 +302,7 @@ $$
  H_0: \omega_j = 0
 \end{equation}
 $$
+{{content}}
 
 --
 
@@ -283,15 +311,9 @@ $$
  (\hat{\omega}_{j} - \omega_j)^T\Sigma_{\hat{\omega}_{j}}^{-1}(\hat{\omega}_{j} - \omega_j) \sim \chi^2_q
 \end{equation}
 $$
+{{content}}
 
---
 
-Likelihood ratio test:
-$$
-\begin{equation}
- 2(\ell_1 - \ell_0) \sim \chi^2_q
-\end{equation}
-$$
 
 ---
 
@@ -376,8 +398,8 @@ Response:
 
 ```{r selection, echo = TRUE, eval = FALSE}
 library(statnnet)
-nn <- selectnn(medv ~ ., data = Boston, Q = 10, n_init = 10,
-               maxit = 5000)
+nn <- selectnn(medv ~ ., data = Boston, Q = 10,
+               n_init = 10, maxit = 5000)
 summary(nn)
 ```
 
@@ -400,7 +422,7 @@ summary(stnn)
 --
 
 ```{r summst, echo = FALSE, cache = TRUE}
-cat(c("[...]", capture.output(summary(stnn))[12:25]
+cat(c("[...]", capture.output(summary(stnn))[12:23]
       , "[...]"), sep = "\n")  
 ```
 
@@ -432,25 +454,30 @@ plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1),
 
 ---
 class: final-slide
-# Summary & References
+# Summary 
 
-### Summary
-
-Our package `statnnet` extends existing neural network packages
-(currently `nnet`) to allow for a more interpretable output.
-
-
-### References
-
-<font size="5">Fukumizu, K. (1996).
-A regularity condition of the information matrix of a multilayer perceptron
-network. Neural Networks, 9(5):871–879.</font>   
 <br>
-<font size="5">James, G., Witten, D., Hastie, T., and Tibshirani, R. (2022).
+
+Feedforward neural networks are non-linear regression models.  
+
+--
+
+Calculation of a likelihood function allows for uncertainty quantification.
+
+--
+
+Our R package extends existing neural network packages
+to allow for a more interpretable, statistically-based output.
+
+
+---
+# References
+
+Fukumizu, K. (1996).
+A regularity condition of the information matrix of a multilayer perceptron
+network. Neural Networks, 9(5):871–879. 
+
+James, G., Witten, D., Hastie, T., and Tibshirani, R. (2022).
 ISLR2: Introduction to Statistical Learning, Second Edition.
-R package version 1.3-1.</font>
-
-
-
-
+R package version 1.3-1.
 
