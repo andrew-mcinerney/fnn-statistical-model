@@ -3,7 +3,7 @@ title: "Feedforward Neural Networks as Statistical Models"
 author: "Andrew McInerney"
 coauthor: "Kevin Burke"
 institution: "University of Limerick"
-event: "3rd Young-ISA Event"
+event: "3rd Young-ISA Meeting"
 date: '7 Oct 2022'
 output:
   xaringan::moon_reader:
@@ -16,8 +16,8 @@ output:
       highlightLanguage: ["r"]
       countIncrementalSlides: false
       ratio: '16:9'
-    includes:
-      after_body: [css/insert-logo.html]
+    # includes:
+    #   after_body: [css/insert-logo.html]
 ---
 
 ```{r, echo=FALSE, message=FALSE}
@@ -98,7 +98,6 @@ class: title-slide, left, bottom
 
 ---
 
-
 # Feedforward Neural Networks 
 
 .pull-left[ 
@@ -118,8 +117,6 @@ $$
 \text{NN}(x_i) = \gamma_0+\sum_{k=1}^q \gamma_k \phi \left( \sum_{j=0}^p \omega_{jk}x_{ji}\right)
 \end{equation}
 $$
-
-
 
 ---
 
@@ -144,7 +141,7 @@ Response:
 
 - `rm` (average number of rooms per dwelling)  
 
-- `lstat` (proportion of population that are 'lower status')
+- `lstat` (proportion of population that are disadvantaged)
 
 ---
 
@@ -349,7 +346,7 @@ $$
 
 $$
 \begin{equation}
- \bar{\text{NN}}_j(x) = \frac{1}{n}\sum_{i=1}^n \text{NN}(x_{i,1}, \ldots,x_{i,j-1},x, x_{i,j+1}, \ldots)
+ \overline{\text{NN}}_j(x) = \frac{1}{n}\sum_{i=1}^n \text{NN}(x_{i,1}, \ldots,x_{i,j-1},x, x_{i,j+1}, \ldots)
 \end{equation}
 $$
 
@@ -360,7 +357,7 @@ Propose covariate-effect plots of the following form:
 
 $$
 \begin{equation}
- \hat{\beta}_j(x,d) = \bar{\text{NN}}_j(x + d) - \bar{\text{NN}}_j(x)
+ \hat{\beta}_j(x,d) = \overline{\text{NN}}_j(x + d) - \overline{\text{NN}}_j(x)
 \end{equation}
 $$
 
@@ -468,8 +465,11 @@ plot(stnn, conf_int = TRUE, method = "deltamethod",  which = c(4, 8))
 
 .pull-left[ 
 ```{r plot1, cache = TRUE, echo = FALSE, fig.height = 6}
+par(mar=c(5,6,4,2)+.1)
 plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1), 
-     which = 4, cex.caption = 2, cex.lab = 1.75, cex.axis = 1.5)
+       which = 4, cex.caption = 2, cex.lab = 1.75, cex.axis = 1.5, caption = "")
+# axis(1, c(0, 0.2, 0.4, 0.6, 0.8, 1), labels = 3.5:8.5, pos = -0.035)
+axis(3, seq(0, 1, length.out = 5), labels = seq(3.5, 8.5, length.out = 5))
 ```  
 ]  
 
@@ -477,8 +477,12 @@ plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1),
 
 .pull-right[ 
 ```{r plot2, cache = TRUE, echo = FALSE, fig.height = 6}
+par(mar=c(5,6,4,2)+.1)
 plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1), 
-     which = 8, cex.caption = 2, cex.lab = 1.75, cex.axis = 1.5)
+     which = 8, cex.caption = 2, cex.lab = 1.75, cex.axis = 1.5, caption = "")
+# axis(1, seq(0, 1, length.out = 5), labels = seq(2, 38, length.out = 5),
+#      pos = -0.155)
+axis(3, seq(0, 1, length.out = 5), labels = seq(2, 38, length.out = 5))
 ```  
 ] 
 
@@ -486,7 +490,6 @@ plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1),
 class: final-slide
 # Summary 
 
-<br>
 
 Feedforward neural networks are non-linear regression models.  
 
@@ -501,25 +504,28 @@ to allow for a more interpretable, statistically-based output.
 
 
 ---
+
 class: final-slide
 # References
 
-<br>
-
 Fukumizu, K. (1996).
-A regularity condition of the information matrix of a multilayer perceptron
-network. Neural Networks, 9(5):871–879. 
+A regularity condition of the information  
+matrix of a multilayer perceptron network. Neural Networks,  
+9(5):871–879. 
 
 McInerney, A. and Burke, K. (2022).
-A Statistically-Based Approach to Feedforward Neural Network Model Selection.
+A Statistically-Based Approach  
+to Feedforward Neural Network Model Selection.
 arXiv preprint arXiv:2207.04248.
 
---
 
 ### R Package  
 
 ```{r, eval = FALSE}
 devtools::install_github("andrew-mcinerney/statnnet")
 ```
+
+`r fa(name = "github", fill = "#007DBA")` <font size="5">andrew-mcinerney</font>   `r fa(name = "twitter", fill = "#007DBA")` <font size="5">@amcinerney_</font> `r fa(name = "envelope", fill = "#007DBA")` <font size="5">andrew.mcinerney@ul.ie</font>
+
 
 
