@@ -127,9 +127,9 @@ $$
 
 --
 
-### Boston Housing Data
+### Boston Housing Data (Kaggle)
 
-506 communities in Boston, MA (James et al., 2022).   
+506 communities in Boston, MA.   
 
 --
 
@@ -194,7 +194,7 @@ $$
 --
 
 $$
-\ell(\theta)= -\frac{n}{2}\log(2\pi\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-g(x_i))^2
+\ell(\theta)= -\frac{n}{2}\log(2\pi\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\text{NN}(x_i))^2
 $$
 
 ---
@@ -212,14 +212,14 @@ $$
 Estimate $\Sigma$ using
 
 $$
-\hat{\Sigma} = I_o(\theta)^{-1}
+\hat{\Sigma} = I_o(\hat{\theta})^{-1}
 $$
 
 --
 
 <br>  
 
-However, inverting $I_o(\theta)$ be problematic.
+However, inverting $I_o(\hat{\theta})$ can be problematic in neural networks.
 ---
 
 # Redundancy
@@ -315,32 +315,62 @@ $$
 
 
 
+<!-- --- -->
+
+<!-- # Covariate-Effect Plots -->
+
+<!-- Propose covariate-effect plots of the following form: -->
+
+<!-- -- -->
+
+<!-- $$ -->
+<!-- \begin{equation} -->
+<!--  \hat{\beta}_j(x) = \frac{1}{n}\sum_{i=1}^n \left[ g(x + \sigma_{j}, X \setminus x_{ij}) - g(x, X \setminus x_{ij}) \right] -->
+<!-- \end{equation} -->
+<!-- $$ -->
+
+<!-- -- -->
+
+<!-- And their associated uncertainty: -->
+
+<!-- -- -->
+
+<!-- $$ -->
+<!-- \begin{equation} -->
+<!--   \hat{\beta}_j(x) \sim N[\beta_j(x), \nabla_\theta^T \beta_j(x) ~ \Sigma ~ \nabla_\theta \beta_j(x)] -->
+<!-- \end{equation} -->
+<!-- $$ -->
+
+
 ---
 
 # Covariate-Effect Plots
 
+
+$$
+\begin{equation}
+ \bar{\text{NN}}_j(x) = \frac{1}{n}\sum_{i=1}^n \text{NN}(x_{i,1}, \ldots,x_{i,j-1},x, x_{i,j+1}, \ldots)
+\end{equation}
+$$
+
+--
 Propose covariate-effect plots of the following form:
 
 --
 
 $$
 \begin{equation}
- \hat{\beta}_j(x) = \frac{1}{n}\sum_{i=1}^n \left[ g(x + \sigma_{j}, X \setminus x_{ij}) - g(x, X \setminus x_{ij}) \right]
+ \hat{\beta}_j(x,d) = \bar{\text{NN}}_j(x + d) - \bar{\text{NN}}_j(x)
 \end{equation}
 $$
 
 --
 
-And their associated uncertainty:
+Usually set $d = \text{SD}(x_j)$
 
 --
 
-$$
-\begin{equation}
-  \hat{\beta}_j(x) \sim N[\beta_j(x), \nabla_\theta^T \beta_j(x) ~ \Sigma ~ \nabla_\theta \beta_j(x)]
-\end{equation}
-$$
-
+Associated uncertainty via delta method.
 
 
 ---
@@ -372,9 +402,9 @@ install_github("andrew-mcinerney/statnnet")
 
 # Data Application (Revistied)
 
-### Boston Housing Data
+### Boston Housing Data (Kaggle)
 
-506 communities in Boston, MA (James et al., 2022)   
+506 communities in Boston, MA.   
 
 --
 
@@ -428,7 +458,7 @@ cat(c("[...]", capture.output(summary(stnn))[12:23]
 
 ---
 
-# Boston Housing: Plots 
+# Boston Housing: Covariate-Effect Plots 
 
 ```{r, eval = FALSE}
 plot(stnn, conf_int = TRUE, method = "deltamethod",  which = c(4, 8))
@@ -471,13 +501,25 @@ to allow for a more interpretable, statistically-based output.
 
 
 ---
+class: final-slide
 # References
+
+<br>
 
 Fukumizu, K. (1996).
 A regularity condition of the information matrix of a multilayer perceptron
 network. Neural Networks, 9(5):871–879. 
 
-James, G., Witten, D., Hastie, T., and Tibshirani, R. (2022).
-ISLR2: Introduction to Statistical Learning, Second Edition.
-R package version 1.3-1.
+McInerney, A. and Burke, K. (2022).
+A Statistically-Based Approach to Feedforward Neural Network Model Selection.
+arXiv preprint arXiv:2207.04248.
+
+--
+
+### R Package  
+
+```{r, eval = FALSE}
+devtools::install_github("andrew-mcinerney/statnnet")
+```
+
 
