@@ -100,6 +100,8 @@ class: title-slide, left, bottom
 
 # Feedforward Neural Networks 
 
+--
+
 .pull-left[ 
 ```{r, echo=FALSE, out.width="90%", out.height="110%", fig.align="center"}
 knitr::include_graphics("img/FNN.png")
@@ -126,7 +128,9 @@ $$
 
 ### Boston Housing Data (Kaggle)
 
-506 communities in Boston, MA.   
+--
+
+506 communities in Boston, MA.    
 
 --
 
@@ -147,6 +151,8 @@ Response:
 
 # R Implementation: nnet
 
+--
+
 ```{r nnet, echo = TRUE, eval = FALSE}
 library(nnet)
 nn <- nnet(medv ~ ., data = Boston, size = 8, maxit = 5000,
@@ -156,7 +162,7 @@ summary(nn)
 
 --
 
-```{r nnetmodel, eval = TRUE, echo = FALSE}
+```{r nnetmodel, eval = TRUE, echo = FALSE, class.output = "bg-primary"}
 library(nnet)
 set.seed(1010101)
 nnet_model <- nnet(medv ~ ., data = Boston, size = 8, maxit = 5000,
@@ -221,6 +227,8 @@ However, inverting $I_o(\hat{\theta})$ can be problematic in neural networks.
 
 # Redundancy
 
+--
+
 Redundant hidden nodes can lead to issues of unidentifiability for some of the parameters (Fukumizu 1996).
 
 <br>
@@ -256,6 +264,7 @@ A Statistically-Based Approach to Feedforward Neural Network Model Selection (ar
 
 # Hypothesis Testing
 
+--
 
 .pull-left[
 ```{r, echo=FALSE, out.width="100%", fig.align="center"}
@@ -375,6 +384,8 @@ Associated uncertainty via delta method.
 
 # R Implementation
 
+--
+
 .left-column[ 
 <br>
 ```{r, echo=FALSE, out.width="80%", fig.align="center"}
@@ -432,8 +443,8 @@ summary(nn)
 
 --
 
-```{r summ, echo = FALSE, cache = TRUE}
-cat(c(capture.output(summary(nn))[c(1:7, 10:11, 15, 19)], "[...]"), sep = "\n") 
+```{r summ, echo = FALSE, cache = TRUE, class.output = "bg-primary"}
+cat(c(capture.output(summary(nn))[c(1:7, 10:11, 15, 19)], "[...]"), sep = "\n")  
 ```
 
 ---
@@ -448,8 +459,8 @@ summary(stnn)
 
 --
 
-```{r summst, echo = FALSE, cache = TRUE}
-cat(c("[...]", capture.output(summary(stnn))[12:23]
+```{r summst, echo = FALSE, cache = TRUE, class.output = "bg-primary"}
+cat(c("[...]", capture.output(summary(stnn))[12:24]
       , "[...]"), sep = "\n")  
 ```
 
@@ -458,7 +469,7 @@ cat(c("[...]", capture.output(summary(stnn))[12:23]
 # Boston Housing: Covariate-Effect Plots 
 
 ```{r, eval = FALSE}
-plot(stnn, conf_int = TRUE, method = "deltamethod",  which = c(4, 8))
+plot(stnn, conf_int = TRUE, method = "deltamethod", which = c(4, 8))
 ```  
 
 --
@@ -469,7 +480,8 @@ par(mar=c(5,6,4,2)+.1)
 plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1), 
        which = 4, cex.caption = 2, cex.lab = 1.75, cex.axis = 1.5, caption = "")
 # axis(1, c(0, 0.2, 0.4, 0.6, 0.8, 1), labels = 3.5:8.5, pos = -0.035)
-axis(3, seq(0, 1, length.out = 5), labels = seq(3.5, 8.5, length.out = 5))
+axis(3, seq(0, 1, length.out = 5), labels = seq(3.5, 8.5, length.out = 5), 
+     cex.axis = 1.5)
 ```  
 ]  
 
@@ -482,7 +494,8 @@ plot(stnn, conf_int = TRUE, method = "deltamethod", x_axis_r = c(0, 1),
      which = 8, cex.caption = 2, cex.lab = 1.75, cex.axis = 1.5, caption = "")
 # axis(1, seq(0, 1, length.out = 5), labels = seq(2, 38, length.out = 5),
 #      pos = -0.155)
-axis(3, seq(0, 1, length.out = 5), labels = seq(2, 38, length.out = 5))
+axis(3, seq(0, 1, length.out = 5), labels = seq(2, 38, length.out = 5), 
+     cex.axis = 1.5)
 ```  
 ] 
 
